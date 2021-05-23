@@ -3344,8 +3344,8 @@ void GuiMenu::openNetworkSettings(bool selectWifiEnable)
                                 runSystemCommand("systemctl enable smbd", "", nullptr);
                                 runSystemCommand("systemctl start smbd", "", nullptr);
                         }
-                bool sshenabled = samba_enabled->getState();
-                SystemConf::getInstance()->set("ee_samba.enabled", sshenabled ? "1" : "0");
+                bool sambaenabled = samba_enabled->getState();
+                SystemConf::getInstance()->set("ee_samba.enabled", sambaenabled ? "1" : "0");
                                 SystemConf::getInstance()->saveSystemConf();
                 });
 
