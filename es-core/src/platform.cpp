@@ -28,6 +28,9 @@ int runShutdownCommand()
 {
 #ifdef WIN32 // windows
 	return system("shutdown -s -t 0");
+#elif defined (_ENABLEEMUELEC)
+    system("/usr/bin/emuelec-utils small-cores enable");
+    return system("systemctl poweroff");
 #else // osx / linux	
 	return system("shutdown -h now");
 #endif
@@ -37,6 +40,9 @@ int runRestartCommand()
 {
 #ifdef WIN32 // windows	
 	return system("shutdown -r -t 0");
+#elif defined (_ENABLEEMUELEC)
+    system("/usr/bin/emuelec-utils small-cores enable");
+    return system("systemctl reboot");
 #else // osx / linux	
 	return system("shutdown -r now");
 #endif
