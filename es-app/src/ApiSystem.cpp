@@ -1066,8 +1066,8 @@ bool ApiSystem::getBrighness(int& value)
 void ApiSystem::setBrighness(int value)
 {
 #if !WIN32	
-	if (value < 2)
-		value = 2;
+	if (value < 0)
+		value = 0;
 
 	if (value > 100)
 		value = 100;
