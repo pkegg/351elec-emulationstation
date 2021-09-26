@@ -1073,7 +1073,7 @@ void ApiSystem::setBrighness(int value)
 		value = 100;
 
 	int fd;
-	int max = 255;
+	int max = 100;
 	char buffer[BACKLIGHT_BUFFER_SIZE + 1];
 	ssize_t count;
 
