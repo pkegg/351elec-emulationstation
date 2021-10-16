@@ -48,3 +48,7 @@ CPackSourceConfig.cmake
 /.vs/
 *.sqlite
 .DS_Store
+
+# vscode
+.vscode/
+
