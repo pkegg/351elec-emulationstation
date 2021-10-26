@@ -320,7 +320,7 @@ void Settings::setDefaults()
 	mBoolMap["audio.persystem"] = false;
 	mBoolMap["audio.display_titles"] = true;
 	mBoolMap["audio.thememusics"] = true;
-	mIntMap["audio.display_titles_time"] = 10;
+	mIntMap["audio.display_titles_time"] = 3;
 
 	mBoolMap["NetPlayCheckIndexesAtStart"] = false;
 	mBoolMap["NetPlayShowMissingGames"] = false;
