@@ -273,7 +273,7 @@ void Window::displayNotificationMessage(std::string message, int duration)
 	{
 		duration = Settings::getInstance()->getInt("audio.display_titles_time");
 		if (duration <= 2 || duration > 120)
-			duration = 10;
+			duration = 3;
 
 		duration *= 1000;
 	}
