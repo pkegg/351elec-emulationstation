@@ -9,32 +9,6 @@
 
 #define CHEEVOS_FREE(p) do { void* q = (void*)p; if (q) std::free(q); } while (0)
 
-void* rc_hash_handle_file_open(const char* path)
-{
-	return intfstream_open_file(path, RETRO_VFS_FILE_ACCESS_READ, RETRO_VFS_FILE_ACCESS_HINT_NONE);
-}
-
-void rc_hash_handle_file_seek(void* file_handle, int64_t offset, int origin)
-{
-	intfstream_seek((intfstream_t*)file_handle, offset, origin);
-}
-
-int64_t rc_hash_handle_file_tell(void* file_handle)
-{
-	return intfstream_tell((intfstream_t*)file_handle);
-}
-
-size_t rc_hash_handle_file_read(void* file_handle, void* buffer, size_t requested_bytes)
-{
-	return intfstream_read((intfstream_t*)file_handle, buffer, requested_bytes);
-}
-
-void rc_hash_handle_file_close(void* file_handle)
-{
-	intfstream_close((intfstream_t*)file_handle);
-	CHEEVOS_FREE(file_handle);
-}
-
 static void* rc_hash_handle_cd_open_track(const char* path, uint32_t track)
 {
 	cdfs_track_t* cdfs_track;
@@ -98,14 +72,6 @@ bool generateHashFromFile(char hash[33], int console_id, const char* path)
 	{
 		if (!readersinit)
 		{
-
-			filereader.open = rc_hash_handle_file_open;
-			filereader.seek = rc_hash_handle_file_seek;
-			filereader.tell = rc_hash_handle_file_tell;
-			filereader.read = rc_hash_handle_file_read;
-			filereader.close = rc_hash_handle_file_close;
-			rc_hash_init_custom_filereader(&filereader);
-
 			cdreader.open_track = rc_hash_handle_cd_open_track;
 			cdreader.read_sector = rc_hash_handle_cd_read_sector;
 			cdreader.close_track = rc_hash_handle_cd_close_track;
