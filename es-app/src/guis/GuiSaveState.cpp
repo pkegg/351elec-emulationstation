@@ -8,7 +8,7 @@
 #include "guis/GuiMsgBox.h"
 #include "SaveStateRepository.h"
 
-#define WINDOW_HEIGHT Renderer::getScreenHeight() * 0.40f
+#define WINDOW_HEIGHT Renderer::getScreenHeight() * 0.5f
 
 static int slots = 6; // 5;
 
@@ -40,14 +40,14 @@ GuiSaveState::GuiSaveState(Window* window, FileData* game, const std::function<v
 	float screenProportion = (float)Renderer::getScreenWidth() / (float)Renderer::getScreenHeight();
 
 	float sh = (float)Math::min(Renderer::getScreenHeight(), Renderer::getScreenWidth());
-	sh = (float) theme->TextSmall.font->getSize() / sh;
+	sh = (float) theme->TextSmall.font->getSize() / sh * 0.8;
 
 	std::string xml =
 		"<theme defaultView=\"Tiles\">"
 		"<formatVersion>7</formatVersion>"
 		"<view name = \"grid\">"
 		"<imagegrid name=\"gamegrid\">"
-		"  <margin>0.01 0.02</margin>"
+		"  <margin>0.015 0.015</margin>"
 		"  <padding>0 0</padding>"
 		"  <scrollDirection>horizontal</scrollDirection>"
 		"  <autoLayout>" + std::to_string(slots * screenProportion / cellProportion) +" 1</autoLayout>"
@@ -57,7 +57,7 @@ GuiSaveState::GuiSaveState(Window* window, FileData* game, const std::function<v
 		"</imagegrid>"		
 		"<gridtile name=\"default\">"
 		"  <backgroundColor>FFFFFF00</backgroundColor>"
-		"  <padding>8 8</padding>"
+		"  <padding>5 5</padding>"
 		"  <imageColor>FFFFFFFF</imageColor>"
 		"</gridtile>"		
 		"<gridtile name=\"selected\">"
@@ -70,7 +70,7 @@ GuiSaveState::GuiSaveState(Window* window, FileData* game, const std::function<v
 		"  <fontSize>" + std::to_string(sh) + "</fontSize>"
 		"  <alignment>center</alignment>"
 		"  <singleLineScroll>false</singleLineScroll>"
-		"  <size>1 0.30</size>"
+		"  <size>1 0.35</size>"
 		"</text>"
 		"<text name=\"gridtile:selected\">"
 		"  <color>" + Utils::String::toHexString(theme->Text.selectedColor) + "</color>"
