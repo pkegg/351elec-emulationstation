@@ -253,7 +253,7 @@ void Settings::setDefaults()
 	mStringMap["CollectionSystemsCustom"] = "";
 	mBoolMap["SortAllSystems"] = true; 
 	mStringMap["SortSystems"] = "manufacturer";
-	mBoolMap["UseCustomCollectionsSystem"] = true;
+	mBoolMap["UseCustomCollectionsSystem"] = false;
 
 	mBoolMap["HiddenSystemsShowGames"] = true;
 	mBoolMap["CollectionShowSystemInfo"] = true;
