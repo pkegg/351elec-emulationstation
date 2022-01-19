@@ -177,7 +177,7 @@ void Settings::setDefaults()
 	mIntMap["ScraperResizeWidth"] = 640;
 	mIntMap["ScraperResizeHeight"] = 0;
 
-#if defined(_WIN32) || defined(TINKERBOARD) || defined(X86) || defined(X86_64) || defined(ODROIDN2) || defined(ODROIDC2) || defined(ODROIDXU4) || defined(RPI4)
+#if defined(_WIN32) || defined(TINKERBOARD) || defined(X86) || defined(X86_64) || defined(ODROIDN2) || defined(ODROIDC2) || defined(ODROIDXU4) || defined(RPI4) || defined(RG552)
 	// Boards > 1Gb RAM
 	mIntMap["MaxVRAM"] = 256;
 #elif defined(ODROIDGOA) || defined(GAMEFORCE) || defined(RK3326) || defined(RPI2) || defined(RPI3) || defined(ROCKPRO64)
