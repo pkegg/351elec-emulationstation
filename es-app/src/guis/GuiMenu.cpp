@@ -3349,6 +3349,34 @@ void GuiMenu::openNetworkSettings(bool selectWifiEnable)
                                 SystemConf::getInstance()->saveSystemConf();
                 });
 
+//Right now limit webui to RG552
+#ifdef RG552
+       auto webui_enabled = std::make_shared<SwitchComponent>(mWindow);
+		bool webuibaseEnabled = SystemConf::getInstance()->get("ee_webui.enabled") == "1";
+		webui_enabled->setState(webuibaseEnabled);
+		auto web_ui_location = "http://"+ApiSystem::getInstance()->getIpAdress()+" or http://"+ApiSystem::getInstance()->getHostsName();
+		s->addWithDescription(_("ENABLE WEB UI"),_(web_ui_location.c_str()), webui_enabled);
+		s->addSaveFunc([webui_enabled] {
+			if (webui_enabled->getState() == false) {
+				runSystemCommand("systemctl stop webui", "", nullptr);
+				runSystemCommand("systemctl disable webui", "", nullptr);
+				runSystemCommand("systemctl stop webui", "", nullptr);
+				runSystemCommand("systemctl disable webui", "", nullptr);
+				runSystemCommand("rm /storage/.cache/services/webui.conf", "", nullptr);
+			} else {
+				runSystemCommand("mkdir -p /storage/.cache/services/", "", nullptr);
+				runSystemCommand("touch /storage/.cache/services/webui.conf", "", nullptr);
+				runSystemCommand("systemctl enable webui", "", nullptr);
+				runSystemCommand("systemctl start webui", "", nullptr);
+				runSystemCommand("systemctl enable webui", "", nullptr);
+				runSystemCommand("systemctl start webui", "", nullptr);
+			}
+			bool webuienabled = webui_enabled->getState();
+			SystemConf::getInstance()->set("ee_webui.enabled", webuienabled ? "1" : "0");
+			SystemConf::getInstance()->saveSystemConf();
+		});
+#endif
+
 	// Wifi enable
 	auto enable_wifi = std::make_shared<SwitchComponent>(mWindow);	
 	enable_wifi->setState(baseWifiEnabled);
