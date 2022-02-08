@@ -536,7 +536,19 @@ void HttpServerThread::run()
 			{
 				if (file->getFullPath() == path || file->getPath() == path)
 				{
-					mWindow->postToUiThread([file]() { ViewController::get()->launch(file); });					
+					mWindow->postToUiThread([file, this]()
+					{ 
+
+						// Remove any open dialogs.
+						// Without this - dialogs will stop the 'launch' until dialog is closed
+						while(mWindow->getGuiStackSize() > 1) {
+							mWindow->removeGui(mWindow->peekGui());
+						}
+
+						mWindow->cancelScreenSaver();
+
+						ViewController::get()->launch(file); 
+					});					
 					return;
 				}
 			}
