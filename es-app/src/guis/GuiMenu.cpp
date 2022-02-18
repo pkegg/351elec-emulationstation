@@ -5,6 +5,7 @@
 #include "components/SwitchComponent.h"
 #include "guis/GuiCollectionSystemsOptions.h"
 #include "guis/GuiDetectDevice.h"
+#include "guis/GuiDecorationOptions.h" //351elec
 #include "guis/GuiGeneralScreensaverOptions.h"
 #include "guis/GuiMsgBox.h"
 #include "guis/GuiScraperStart.h"
@@ -397,7 +398,18 @@ void GuiMenu::openSystemInformations()
 {
 	mWindow->pushGui(new GuiSystemInformation(mWindow));
 }
+void GuiMenu::openDecorationConfiguration(Window *mWindow, std::string configName, std::vector<DecorationSetInfo> sets)
+{
+	//Using a shared pointer to ensure the memory doesn't cause issues in the other class
+	std::map<std::string, std::string> decorationSetNameToPath;
+	for (auto set : sets)
+	{
+		decorationSetNameToPath.insert(std::make_pair(set.name, set.path));
+	}
 
+	auto decorationOptions = new GuiDecorationOptions(mWindow, configName, decorationSetNameToPath);
+	mWindow->pushGui(decorationOptions);
+}
 void GuiMenu::openDeveloperSettings()
 {
 	Window *window = mWindow;
@@ -3744,6 +3756,9 @@ void GuiMenu::popSpecificConfigurationGui(Window* mWindow, std::string title, st
 			});
 #else
 			addDecorationSetOptionListComponent(mWindow, systemConfiguration, sets, configName);
+
+            systemConfiguration->addEntry(_("DECORATION OPTIONS"), true, [mWindow, configName, sets]
+                                              { openDecorationConfiguration(mWindow, configName, sets); });
 #endif		
 		}
 	}	
