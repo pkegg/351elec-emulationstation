@@ -5,6 +5,7 @@
 #include "components/SwitchComponent.h"
 #include "guis/GuiCollectionSystemsOptions.h"
 #include "guis/GuiDetectDevice.h"
+#include "guis/GuiDecorationOptions.h" //351elec
 #include "guis/GuiGeneralScreensaverOptions.h"
 #include "guis/GuiMsgBox.h"
 #include "guis/GuiScraperStart.h"
@@ -397,7 +398,18 @@ void GuiMenu::openSystemInformations()
 {
 	mWindow->pushGui(new GuiSystemInformation(mWindow));
 }
+void GuiMenu::openDecorationConfiguration(Window *mWindow, std::string configName, std::vector<DecorationSetInfo> sets)
+{
+	//Using a shared pointer to ensure the memory doesn't cause issues in the other class
+	std::map<std::string, std::string> decorationSetNameToPath;
+	for (auto set : sets)
+	{
+		decorationSetNameToPath.insert(std::make_pair(set.name, set.path));
+	}
 
+	auto decorationOptions = new GuiDecorationOptions(mWindow, configName, decorationSetNameToPath);
+	mWindow->pushGui(decorationOptions);
+}
 void GuiMenu::openDeveloperSettings()
 {
 	Window *window = mWindow;
@@ -1935,7 +1947,7 @@ void GuiMenu::openGamesSettings()
 				GuiSettings *decorations_window = new GuiSettings(mWindow, _("DECORATIONS").c_str());
 
 				addDecorationSetOptionListComponent(mWindow, decorations_window, sets);
-
+#ifndef ELEC351
 				// stretch bezels
 				auto bezel_stretch_enabled = std::make_shared<OptionListComponent<std::string>>(mWindow, _("STRETCH BEZELS (4K & ULTRAWIDE)"));
 				bezel_stretch_enabled->add(_("AUTO"), "auto", SystemConf::getInstance()->get("global.bezel_stretch") != "0" && SystemConf::getInstance()->get("global.bezel_stretch") != "1");
@@ -1992,7 +2004,7 @@ void GuiMenu::openGamesSettings()
 						SystemConf::getInstance()->setBool("global.bezel.resize_tattoo", bezel_resize_tattoo->getState());
 					}
 				});
-
+#endif
 				mWindow->pushGui(decorations_window);
 			});			
 #else
@@ -3690,6 +3702,10 @@ void GuiMenu::popSpecificConfigurationGui(Window* mWindow, std::string title, st
 
 				addDecorationSetOptionListComponent(mWindow, decorations_window, sets, configName);
 				
+#ifdef ELEC351
+				decorations_window->addEntry(_("DECORATION OPTIONS"), true, [mWindow, configName, sets]
+                                              { openDecorationConfiguration(mWindow, configName, sets); });
+#else
 				// stretch bezels
 				auto bezel_stretch_enabled = std::make_shared<OptionListComponent<std::string>>(mWindow, _("STRETCH BEZELS (4K & ULTRAWIDE)"));
 				bezel_stretch_enabled->add(_("AUTO"), "auto", SystemConf::getInstance()->get(configName + ".bezel_stretch") != "0" && SystemConf::getInstance()->get(configName + ".bezel_stretch") != "1");
@@ -3739,6 +3755,7 @@ void GuiMenu::popSpecificConfigurationGui(Window* mWindow, std::string title, st
 				std::string tatpath = configName + ".bezel.tattoo_file";
 				const char *bezelpath = const_cast<char*>(tatpath.data());
 				decorations_window->addInputTextRow(_("CUSTOM .PNG IMAGE PATH"), bezelpath, false);
+#endif
 
 				mWindow->pushGui(decorations_window);
 			});

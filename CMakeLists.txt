@@ -9,6 +9,7 @@ option(BCM "BCM host" OFF)
 
 option(BATOCERA "Set to ON to enable BATOCERA specific code" OFF)
 option(RETROBAT "Set to ON to enable RETROBAT specific code" OFF)
+option(ELEC351 "Set to ON to enable ELEC351 specific code" OFF)
 
 option(ENABLE_FILEMANAGER "Set to ON to enable f1 shortcut for filesystem" OFF)
 option(DISABLE_KODI "Set to ON to disable kodi in menu" OFF)
@@ -32,6 +33,11 @@ endif()
 if(RETROBAT)
   MESSAGE("Retrobat build")
   add_definitions(-DRETROBAT)
+endif()
+
+if(ELEC351)
+  MESSAGE("351ELEC build")
+  add_definitions(-DELEC351)
 endif()
 
 # disable kodi menu
