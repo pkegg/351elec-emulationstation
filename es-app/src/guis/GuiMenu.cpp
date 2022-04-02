@@ -4771,8 +4771,26 @@ void GuiMenu::openNetworkSettings_batocera(bool selectWifiEnable)
 			openNetworkSettings_batocera(true);
 		}
 	});
+#ifdef RG552 || RG351P || RG351V
+	if (baseWifiEnabled)
+	{
+		s->addGroup(_("ADVANCED WIFI SETTINGS"));
 
+		bool internalWifiDisabled = SystemConf::getInstance()->getBool("wifi.internal.disabled");
+		auto disableInternalWifi = std::make_shared<SwitchComponent>(mWindow);
+		disableInternalWifi->setState(internalWifiDisabled);
+		s->addWithDescription(_("DISABLE INTERNAL WIFI"),"Turns off internal WiFi adapter.  Allows external wifi adapters", disableInternalWifi);
+
+		disableInternalWifi->setOnChangedCallback([this, disableInternalWifi, internalWifiDisabled]()
+		{
+			const std::string interalWifiDisableString = (disableInternalWifi->getState()) ? "disable" : "enable";
+			SystemConf::getInstance()->setBool("wifi.internal.disabled", disableInternalWifi->getState());
+			LOG(LogDebug) << "Calling: batocera-internal-wifi " << interalWifiDisableString;
+			runSystemCommand("/usr/bin/batocera-internal-wifi "+interalWifiDisableString, "", nullptr);
+		});
+	}
 	mWindow->pushGui(s);
+#endif
 }
 
 void GuiMenu::openQuitMenu_batocera()
