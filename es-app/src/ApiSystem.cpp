@@ -781,6 +781,24 @@ std::vector<BatoceraTheme> ApiSystem::getBatoceraThemesList()
 std::string ApiSystem::getUpdateUrl()
 {
 	auto systemsetting = SystemConf::getInstance()->get("global.updates.url");
+
+	std::ifstream fh("/storage/.config/.OS_ARCH");
+	std::string s;
+	std::string MyArch;
+	if(fh) {
+		std::ostringstream ss;
+		ss << fh.rdbuf();
+		s = ss.str();
+		if (s == "RG351P") {
+			MyArch = "RG351P";
+		} else {
+			MyArch = "RG351V";
+		}
+	}
+
+	std::regex newline("\n$");
+	MyArch = std::regex_replace(MyArch, newline, "");
+
 	if (!systemsetting.empty())
 		return systemsetting;
 
