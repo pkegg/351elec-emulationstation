@@ -4779,7 +4779,7 @@ void GuiMenu::openNetworkSettings_batocera(bool selectWifiEnable)
 		bool internalWifiDisabled = SystemConf::getInstance()->getBool("wifi.internal.disabled");
 		auto disableInternalWifi = std::make_shared<SwitchComponent>(mWindow);
 		disableInternalWifi->setState(internalWifiDisabled);
-		s->addWithDescription(_("DISABLE INTERNAL WIFI"),"Turns off internal WiFi adapter.  Allows external wifi adapters", disableInternalWifi);
+		s->addWithDescription(_("DISABLE INTERNAL WIFI"),"Turns off internal WiFi adapter.  Allows external WiFi adapters", disableInternalWifi);
 
 		disableInternalWifi->setOnChangedCallback([this, disableInternalWifi, internalWifiDisabled]()
 		{
