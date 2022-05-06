@@ -4789,8 +4789,8 @@ void GuiMenu::openNetworkSettings_batocera(bool selectWifiEnable)
 			runSystemCommand("/usr/bin/batocera-internal-wifi "+interalWifiDisableString, "", nullptr);
 		});
 	}
-	mWindow->pushGui(s);
 #endif
+	mWindow->pushGui(s);
 }
 
 void GuiMenu::openQuitMenu_batocera()
