@@ -4771,7 +4771,7 @@ void GuiMenu::openNetworkSettings_batocera(bool selectWifiEnable)
 			openNetworkSettings_batocera(true);
 		}
 	});
-#ifdef RG552 || RG351P || RG351V
+#if defined(RG552) || defined(RG351P) || defined(RG351V)
 	if (baseWifiEnabled)
 	{
 		s->addGroup(_("ADVANCED WIFI SETTINGS"));
